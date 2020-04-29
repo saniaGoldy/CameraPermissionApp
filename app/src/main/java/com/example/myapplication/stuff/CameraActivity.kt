@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
@@ -13,7 +14,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.example.myapplication.BuildConfig
 import com.google.common.util.concurrent.ListenableFuture
-
 
 abstract class CameraActivity : AppCompatActivity() {
 
@@ -41,6 +41,22 @@ abstract class CameraActivity : AppCompatActivity() {
         )
     }
 
+    protected fun showAlertDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Androidly Alert")
+            .setMessage("We have a message")
+            .setPositiveButton(android.R.string.yes) { dialog, which ->
+
+            }
+            .setNegativeButton(android.R.string.no) { dialog, which ->
+
+            }
+            .setNeutralButton("Maybe") { dialog, which ->
+
+            }
+            .show()
+    }
+
     private fun bindPreview(cameraProvider: ProcessCameraProvider) {
         val preview: Preview = Preview.Builder()
             .build()
@@ -53,4 +69,5 @@ abstract class CameraActivity : AppCompatActivity() {
 
         preview.setSurfaceProvider(previewView.createSurfaceProvider(camera.cameraInfo))
     }
+
 }

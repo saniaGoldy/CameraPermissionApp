@@ -3,6 +3,7 @@ package com.example.myapplication.stuff
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Message
 import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -41,10 +42,10 @@ abstract class CameraActivity : AppCompatActivity() {
         )
     }
 
-    protected fun showAlertDialog() {
+    protected fun showAlertDialog(message: String) {
         AlertDialog.Builder(this)
             .setTitle("Androidly Alert")
-            .setMessage("We have a message")
+            .setMessage(message)
             .setPositiveButton(android.R.string.yes) { dialog, which ->
 
             }

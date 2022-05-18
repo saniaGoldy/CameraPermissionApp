@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Message
 import android.provider.Settings
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
@@ -27,6 +28,7 @@ abstract class CameraActivity : AppCompatActivity() {
     }
 
     protected fun launchCamera() {
+        Log.d("PERMISSION", "Launching camera")
         cameraProviderFuture.addListener(Runnable {
             val cameraProvider = cameraProviderFuture.get()
             bindPreview(cameraProvider)
@@ -42,17 +44,14 @@ abstract class CameraActivity : AppCompatActivity() {
         )
     }
 
-    protected fun showAlertDialog(message: String) {
+    protected fun showAlertDialog() {
         AlertDialog.Builder(this)
             .setTitle("Androidly Alert")
-            .setMessage(message)
+            .setMessage("Program need permission to camera. Open settings?")
             .setPositiveButton(android.R.string.yes) { dialog, which ->
-
+                openSettings()
             }
             .setNegativeButton(android.R.string.no) { dialog, which ->
-
-            }
-            .setNeutralButton("Maybe") { dialog, which ->
 
             }
             .show()

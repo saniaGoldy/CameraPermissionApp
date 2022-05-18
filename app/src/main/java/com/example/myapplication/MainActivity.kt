@@ -20,10 +20,7 @@ class MainActivity : CameraActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         previewView = findViewById(R.id.preview_view)
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_DENIED
+        if (havePermissionToCamera()
         ) {
             Log.d("PERMISSION", "CAMERA PERMISSION IS NOT GRANTED")
             if (ActivityCompat.shouldShowRequestPermissionRationale(
@@ -31,17 +28,22 @@ class MainActivity : CameraActivity() {
                     Manifest.permission.CAMERA
                 )
             ) {
-                showAlertDialog("UI that describe why the feature, which the user wants to enable, needs a particular permission")
+                showAlertDialog()
             }
             Log.d("PERMISSION", "REQUEST CAMERA PERMISSION")
             ActivityCompat.requestPermissions(
                 this, arrayOf(Manifest.permission.CAMERA),
                 MY_PERMISSION_CODE
             )
-
+            if(havePermissionToCamera())
+                launchCamera()
         }else{
-            Log.d("PERMISSION", "Launching camera")
             launchCamera()
         }
     }
+
+    private fun havePermissionToCamera() = ContextCompat.checkSelfPermission(
+        this,
+        Manifest.permission.CAMERA
+    ) == PackageManager.PERMISSION_DENIED
 }

@@ -22,23 +22,36 @@ class MainActivity : CameraActivity() {
         previewView = findViewById(R.id.preview_view)
         if (havePermissionToCamera()
         ) {
-            Log.d("PERMISSION", "CAMERA PERMISSION IS NOT GRANTED")
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this,
-                    Manifest.permission.CAMERA
-                )
-            ) {
-                showAlertDialog()
-            }
-            Log.d("PERMISSION", "REQUEST CAMERA PERMISSION")
             ActivityCompat.requestPermissions(
                 this, arrayOf(Manifest.permission.CAMERA),
                 MY_PERMISSION_CODE
             )
-            if(havePermissionToCamera())
-                launchCamera()
-        }else{
+        } else {
             launchCamera()
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        Log.d("PERMISSION", "REQUEST CAMERA PERMISSION")
+        when (requestCode) {
+            MY_PERMISSION_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    launchCamera()
+                } else {
+                    Log.d("PERMISSION", "CAMERA PERMISSION IS NOT GRANTED")
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(
+                            this,
+                            Manifest.permission.CAMERA
+                        )
+                    ) {
+                        showAlertDialog()
+                    }
+                }
+            }
         }
     }
 

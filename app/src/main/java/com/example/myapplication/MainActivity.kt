@@ -10,8 +10,9 @@ import androidx.core.content.ContextCompat
 import com.example.myapplication.stuff.CameraActivity
 
 const val MY_PERMISSION_CODE = 100
-
+const val TAG = "MyApp"
 class MainActivity : CameraActivity() {
+
 
     override lateinit var previewView: PreviewView
 
@@ -20,15 +21,14 @@ class MainActivity : CameraActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         previewView = findViewById(R.id.preview_view)
-        if (havePermissionToCamera()
-        ) {
+        /*if (havePermissionForCamera()) {
             ActivityCompat.requestPermissions(
                 this, arrayOf(Manifest.permission.CAMERA),
                 MY_PERMISSION_CODE
             )
         } else {
             launchCamera()
-        }
+        }*/
     }
 
     override fun onRequestPermissionsResult(
@@ -36,13 +36,14 @@ class MainActivity : CameraActivity() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        Log.d("PERMISSION", "REQUEST CAMERA PERMISSION")
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        Log.d(TAG, "REQUEST CAMERA PERMISSION")
         when (requestCode) {
             MY_PERMISSION_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     launchCamera()
                 } else {
-                    Log.d("PERMISSION", "CAMERA PERMISSION IS NOT GRANTED")
+                    Log.d(TAG, "Permission not granted")
                     if (ActivityCompat.shouldShowRequestPermissionRationale(
                             this,
                             Manifest.permission.CAMERA
@@ -55,7 +56,7 @@ class MainActivity : CameraActivity() {
         }
     }
 
-    private fun havePermissionToCamera() = ContextCompat.checkSelfPermission(
+    private fun havePermissionForCamera() = ContextCompat.checkSelfPermission(
         this,
         Manifest.permission.CAMERA
     ) == PackageManager.PERMISSION_DENIED

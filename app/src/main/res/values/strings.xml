@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="alertTitle">Androidly Alert</string>
+    <string name="alertMessage">Program need permission to camera. Open settings?</string>
 </resources>
